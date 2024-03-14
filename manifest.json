@@ -6,10 +6,22 @@
   "background": {
     "service_worker": "./src/background/background.ts"
   },
-  "options_page" : "src/optionsPage/optionsPage.html",
+  "options_page": "src/optionsPage/optionsPage.html",
+  "permissions": [
+    "activeTab",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "tabs",
+    "unlimitedStorage",
+    "storage",
+    "alarms",
+    "activeTab",
+    "scripting"
+  ],
+
   "content_scripts": [
     {
-      "js": ["src/content/content.tsx"],
+      "js": ["src/App.tsx"],
       "matches": ["<all_urls>"]
     }
   ]
