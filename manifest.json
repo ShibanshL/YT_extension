@@ -21,7 +21,7 @@
 
   "content_scripts": [
     {
-      "js": ["src/App.tsx"],
+      "js": ["src/content/content.tsx"],
       "matches": ["<all_urls>"]
     }
   ]
