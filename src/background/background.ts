@@ -1,46 +1,58 @@
-// console.log("woeking");
+// const getUrl = async () => {
+  chrome.runtime.onInstalled.addListener(({ reason }) => {
+    if (reason === "install") {
+      chrome.tabs.create({
+        url: "src/default/FirstLoad.html",
+      });
+    }
+  });
 
-// const deleteShorts = async () => {
-//   const [tab] = await chrome.tabs.query({ active: true });
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id! },
-//     func: () => {
-//       const shortsBar: any = document.querySelectorAll(
-//         ".style-scope .ytd-rich-grid-renderer"
-//       );
 
-//       // console.log("working till here");
+  chrome.runtime.onMessage.addListener(function (
+    request,
+    sender,
+    sendResponse
+  ) {
+    console.log(sender, sendResponse);
 
-//       for (let i = 0; i < shortsBar.length; i++) {
-//         const showMore: any = shortsBar[i].querySelectorAll(
-//           "div.button-container.style-scope.ytd-rich-shelf-renderer"
-//         );
+    if (request.greeting) {
+      return SendMessage(request.greeting);
+    }
 
-//         // console.log("first for loop", showMore);
-//         if (showMore) {
-//           for (let j = 0; j < showMore.length; j++) {
-//             console.log("second for loop", showMore[j].parentNode);
+    return sendResponse({ farewell: "Thank you Backend here! Image received !" });
+  });
 
-//             if (showMore[j]) showMore[j].parentNode.remove();
-//             // else console.log("not working", showMore[j].innerHTML);
-//           }
-//         }
-//       }
-//     },
+
+// const get_URL_1 = (e:any) => {
+//   return chrome.tabs.query({}, function (tabs) {
+//     // console.log(tabs);
+//     const data:any = tabs.filter((val:any) => val.url?.includes("youtube"))
+
+//     if(data.length > 0){
+//       e(data)
+//     }
+//     if(data.length === 0){
+//       e([])
+//     }
 //   });
 // };
 
-const getUrl = async () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const currentURL = tabs[0].url;
+// chrome.tabs.onCreated.addListener(function(tab) {
+//   chrome.scripting.executeScript({
+//     target: {tabId: tab.id?tab.id:0},
+//     function: () => console.log(';created')
+//   });
+// });
 
-    console.log("c_url ", currentURL);
-    // if (currentURL?.includes("youtube")) {
-    //   deleteShorts();
-    // }
-  });
+function showAlert() {
+  alert("A new tab was opened!");
+}
+
+const SendMessage = async (data: any) => {
+
+  const res = chrome.tabs.query({}, (tabs: any) =>
+    tabs.forEach((tab: any) => chrome.tabs.sendMessage(tab.id, data))
+  );
+
+  return res;
 };
-
-getUrl();
-
-// alert("FUCK U");

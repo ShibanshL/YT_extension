@@ -1,70 +1,26 @@
+import { useState } from "react";
 import "./App.css";
-import React from "react";
-// import ContentApp from "./content/ContentApp";
-import { testItem } from "./lib/atom";
-import { useAtom } from "jotai";
+// import React from "react";
 
 function App() {
-  const [jotai, setJptai] = useAtom(testItem);
-  const [setUrl] = React.useState<any>("");
-  const [imgLink, setImgLink] = React.useState<any>(null);
-  // const [img, imgfile] = React.useState<any>(null);
-  const getUrl = async () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      console.log("app", tabs);
-      const currentURL = tabs[0].url;
-      setUrl(currentURL);
-    });
-  };
 
-  React.useEffect(() => {
-    getUrl();
-    // console.log(jotai);
-  }, []);
+  const [img,setImg] = useState(false)
 
-  // React.useEffect(() => {
-  //   if (JSON.stringify(imgLink).length > 0) {
-  //     <ContentApp imgLink={imgLink} />;
-  //   }
-  // }, [imgLink]);
-  // start bilding your popup app here
   return (
-    <h1 className="h-[300px] w-[300px] text-center font-bold underline flex items-center justify-center">
-      <input
-        type="file"
-        // value={img}
-        onChange={(e: any) => {
-          const reader: any = new FileReader();
-
-          reader.addEventListener("load", () => {
-            // console.log(reader.result);
-            localStorage.setItem("IMG_123", reader.result);
-            setImgLink(localStorage.getItem("IMG"));
-            // setJptai(true);
-          });
-
-          console.log("IMG", e.target.files);
-          reader.readAsDataURL(e.target.files[0]);
-          // imgfile(e);
-        }}
-      />
-      {imgLink ? <img src={imgLink} className="h-[40px] w-[90px]" /> : ""}
-
-      <button
-        onClick={() => {
-          setJptai(!jotai);
-          // chrome.runtime.sendMessage({
-          //   message: "popup_to_background",
-          //   data: { name: "Naruto" },
-          // });
-
-          console.log("jotai", jotai);
-        }}
-      >
-        TEST
-      </button>
-      {/* <ContentApp imgLink={localStorage.getItem("IMG")} /> */}
-    </h1>
+    <div className="h-[250px] w-[300px] text-center flex-col flex items-center justify-center bg-[#0f0f0f] p-[10px] transition">
+      <div className={`h-full w-full ${!img?'bg-[#282828]':'bg-[#D4101D]'} flex-col flex items-start justify-between rounded-[15px] p-[15px]`}>
+        <h1 className="text-white font-bold text-[16px]">Youtube Shorts Remover</h1>
+        <p className="text-white text-left text-[10px] font-bold">We remove Youtube Shorts by default and change youtube thumbnail based on user's choice if any.</p>
+        <h2 className="text-white text-left font-bold">{!img?'Wanna add a custom thumbnail to every the videos in your feed?':'You have a custom thumbnail set currently, Do you want to change or remove it ?'}</h2>
+        <button 
+         onClick={() =>{
+          setImg(!img)
+          chrome.tabs.create({ url: "src/optionsPage/optionsPage.html" })
+         }
+        }
+        className={`text-white font-bold text-[10px] rounded-[5px] h-[40px] ${!img?'w-[150px]':'w-[120px]'} ${img?'bg-[#282828]':'bg-[#D4101D]'}`} >{!img?'ADD CUSTOM THUMBNAIL':'CLICK ME'}</button>
+      </div>
+    </div>
   );
 }
 

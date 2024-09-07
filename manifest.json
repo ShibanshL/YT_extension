@@ -6,9 +6,11 @@
   "background": {
     "service_worker": "./src/background/background.ts"
   },
-  "options_page": "src/optionsPage/optionsPage.html",
+  "options_page": "./src/optionsPage/optionsPage.html",
   "permissions": [
     "activeTab",
+    "background",
+    "browser_action",
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
     "tabs",
@@ -21,8 +23,9 @@
 
   "content_scripts": [
     {
+      "matches": ["https://www.youtube.com/*"],
       "js": ["src/content/content.tsx"],
-      "matches": ["<all_urls>"]
+      "run_at": "document_idle"
     }
   ]
 }
