@@ -16,7 +16,7 @@ function OptionsApp() {
   const [tabId, setTabId] = useState<any>([0]);
 
   const dynamic_Image_Cards = () => {
-    if (image) {
+    if (image && tabId.length !== 0 && !imageData.memory.includes("MB")) {
       return (
         <>
           <h1 className="text-white text-left text-[18px] font-bold">
@@ -45,6 +45,27 @@ function OptionsApp() {
           <h1 className="text-red-600 text-left text-[18px] font-bold">
             Please open a youtube tab for the code to work !
           </h1>
+        </>
+      );
+    }
+    if (imageData.memory.includes("MB")) {
+      return (
+        <>
+          <h1 className="text-red-600 text-left text-[18px] font-bold">
+            Please change the image or compress the image as the image is larger
+            than 1MB.
+          </h1>
+          <div className="w-full h-[40%] flex items-end justify-end flex-col gap-[10px]">
+            <button
+              className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#D4101D]"
+              onClick={() => {
+                setImage("");
+                setImageData(noImage);
+              }}
+            >
+              RESET
+            </button>
+          </div>
         </>
       );
     }
@@ -132,7 +153,13 @@ function OptionsApp() {
             </h2>
             <h2 className="text-white font-bold text-[15px]">
               IMAGE SIZE :<br></br>
-              <span className="font-light text-[18px]">
+              <span
+                className={`${
+                  imageData.memory.includes("MB")
+                    ? "font-bold text-[18px] text-red-600"
+                    : "font-light text-[18px] "
+                }`}
+              >
                 {imageData.memory ? imageData.memory : "~"}
               </span>
             </h2>
