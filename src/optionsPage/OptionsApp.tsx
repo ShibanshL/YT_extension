@@ -1,5 +1,5 @@
 // import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Youtube from "../assets/Youtube.svg";
 
 const noImage = {
@@ -28,11 +28,34 @@ function OptionsApp() {
               onClick={() => {
                 setImage("");
                 setImageData(noImage);
+                localStorage.removeItem("IMAGE");
+                localStorage.removeItem("IMGDATA");
+                Array(1, 2, 3).map(() => { 
+                return chrome.tabs.query({}, async (tabs:any) => { 
+                  const response = await chrome.tabs.sendMessage(tabs.id, {
+                    greeting: "CLEAR",
+                  });
+                  return response;
+                })
+              })
               }}
             >
               RESET
             </button>
-            <button className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#00A74D]">
+            <button 
+              className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#00A74D]"
+              onClick={() => {
+                localStorage.setItem("IMAGE", image);
+                if (imageData.name && imageData.memory) {
+                  localStorage.setItem("IMGDATA", JSON.stringify(imageData));
+                }
+                tabId.map((e: any) => {
+                  return Array(1, 2, 3).map(() => {
+                    return sendImg(e.id);
+                  });
+                });
+              }}
+            >
               SAVE
             </button>
           </div>
@@ -124,20 +147,28 @@ function OptionsApp() {
 
   setInterval(() => get_URL(), 1000);
 
-  // chrome.tabs.onCreated.addListener(function (tab) {
-  //   chrome.scripting.executeScript({
-  //     target: { tabId: tab.id },
-  //     function: showAlert,
-  //   });
-  // });
+  const sendImg = async (e: number) => {
+    // console.log(e)
+    const response = await chrome.tabs.sendMessage(e, {
+      greeting: image,
+    });
+    // chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    //   return  chrome.tabs.remove(tabs[0].id?tabs[0].id:0);
+    // })
 
-  // function showAlert() {
-  //   alert("A new tab was opened!");
-  // }
+    return response;
+  };
 
-  // useEffect(() => {
-  //   setImage('')
-  // },[])
+  useEffect(() => {
+    const Img = localStorage.getItem("IMAGE");
+    const ImgData: any = localStorage.getItem("IMGDATA");
+    const SubIMG = JSON.parse(ImgData);
+
+    if (Img && SubIMG.name && SubIMG.memory) {
+      setImage(Img);
+      setImageData({ ...imageData, name: SubIMG.name, memory: SubIMG.memory });
+    }
+  }, []);
 
   return (
     <>
@@ -231,36 +262,3 @@ function OptionsApp() {
 
 export default OptionsApp;
 
-// let testFile = () => {
-//   return (
-//     <>
-//     <div className="h-[100vh] w-[100vw] text-center flex-col flex items-center justify-center bg-pink-400">
-//       <input
-//         type="file"
-//         onChange={(e: any) => {
-//           const reader: any = new FileReader();
-//           reader.addEventListener("load", () => {
-//             setImgLink(reader.result);
-//           });
-//           reader.readAsDataURL(e.target.files[0]);
-//         }}
-//       />
-//       <button
-//         onClick={() => {
-//           id.map((e: number) => {
-//             return (async () => {
-//               const response = await chrome.tabs.sendMessage(e, {
-//                 greeting: imgLink,
-//               });
-//               return response;
-//             })();
-//           });
-//         }}
-//       >
-//         {" "}
-//         SUB{" "}
-//       </button>
-//     </div>
-//     </>
-//   )
-// }

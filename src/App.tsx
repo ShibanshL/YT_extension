@@ -1,10 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 // import React from "react";
 
 function App() {
 
   const [img,setImg] = useState(false)
+
+  // const [imgLnk, setImgLink] = useState<any>('');
+
+  useEffect(() => {
+    const IMG = localStorage.getItem("IMAGE");
+
+    if (IMG) {
+      setImg(true);
+    }
+  }, [img]);
+
+  chrome.runtime.onMessage.addListener(function (
+    request,
+    sender,
+    sendResponse
+  ) {
+    console.log(sender, sendResponse);
+
+    if (request.greeting) {
+      if (request.greeting == "CLEAR") {
+        localStorage.removeItem("IMAGE");
+        localStorage.removeItem("IMGDATA");
+
+        return setImg(false);
+      }
+    }
+
+    return sendResponse({ farewell: "Thank you ! Image received !" });
+  });
 
   return (
     <div className="h-[250px] w-[300px] text-center flex-col flex items-center justify-center bg-[#0f0f0f] p-[10px] transition">

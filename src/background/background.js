@@ -17,6 +17,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   return sendResponse({ farewell: "Thank you Backend here! Image received !" });
 });
 
+
+//This is the code for dynamic icon change
+//be sure to try it out
+// chrome.runtime.onInstalled.addListener(() => {
+//   chrome.action.setIcon({ path: "icon1.png" });
+// });
+
+// chrome.action.onClicked.addListener((tab) => {
+//   chrome.action.setIcon({ path: "icon2.png" });
+// });
+
+
+
 // const get_URL_1 = (e:any) => {
 //   return chrome.tabs.query({}, function (tabs) {
 //     // console.log(tabs);
