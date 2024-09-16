@@ -8,8 +8,6 @@ const root = document.createElement("div");
 root.id = "crx-root";
 document.body.appendChild(root);
 
-console.log('LOADED BITCH')
-
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <ContentApp />

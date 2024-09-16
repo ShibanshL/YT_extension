@@ -15,6 +15,9 @@ function OptionsApp() {
   });
   const [tabId, setTabId] = useState<any>([0]);
 
+
+  //This functions checks multiple things, whether a youtube tab is open or not
+  //Whether the image provided has size less than an MB
   const dynamic_Image_Cards = () => {
     if (image && tabId.length !== 0 && !imageData.memory.includes("MB")) {
       return (
@@ -30,14 +33,11 @@ function OptionsApp() {
                 setImageData(noImage);
                 localStorage.removeItem("IMAGE");
                 localStorage.removeItem("IMGDATA");
-                Array(1, 2, 3).map(() => { 
-                return chrome.tabs.query({}, async (tabs:any) => { 
-                  const response = await chrome.tabs.sendMessage(tabs.id, {
-                    greeting: "CLEAR",
+                tabId.map((e: any) => {
+                  return Array(1, 2, 3).map(() => {
+                    return sendImg(e.id,'NoImage');
                   });
-                  return response;
-                })
-              })
+                });
               }}
             >
               RESET
@@ -118,9 +118,9 @@ function OptionsApp() {
     );
   };
 
+  //This function finds the specific tabs that has youtube open in it
   const get_URL = () => {
     return chrome.tabs.query({}, function (tabs) {
-      // console.log(tabs);
       const data: any = tabs.filter((val: any) => val.url?.includes("youtube"));
 
       if (data.length > 0) {
@@ -132,6 +132,7 @@ function OptionsApp() {
     });
   };
 
+  //This function asses the image provided and finds it's name and size
   const image_Data = (e: any) => {
     var _size = e?.size;
     var fSExt = new Array("Bytes", "KB", "MB", "GB"),
@@ -147,15 +148,21 @@ function OptionsApp() {
 
   setInterval(() => get_URL(), 1000);
 
-  const sendImg = async (e: number) => {
-    // console.log(e)
-    const response = await chrome.tabs.sendMessage(e, {
-      greeting: image,
-    });
-    // chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    //   return  chrome.tabs.remove(tabs[0].id?tabs[0].id:0);
-    // })
+  //This is the function that sends image into the youtube tabs to change
+  //the thumbnail images
+  const sendImg = async (e: number,empty?:string) => {
+    let response:any ={}
 
+    if(empty){
+      response = await chrome.tabs.sendMessage(e, {
+        greeting: "CLEAR",
+      });
+    }
+    else {
+      response = await chrome.tabs.sendMessage(e, {
+        greeting: image,
+      });
+    }
     return response;
   };
 

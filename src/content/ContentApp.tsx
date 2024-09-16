@@ -2,13 +2,14 @@ import React from "react";
 function ContentApp() {
   const [imgSrc, setImgSrc] = React.useState("");
 
+  //This function replaces the thumbnails of youtube videos to desired image
+  //provided by the user
   const changeIMG_IMGA = () => {
     let allIMG: any = document.querySelectorAll(
       "img.yt-core-image.yt-core-image--fill-parent-height.yt-core-image--fill-parent-width.yt-core-image--content-mode-scale-aspect-fill.yt-core-image--loaded"
     );
 
     for (let i = 0; i < allIMG.length; i++) {
-      // allIMG[i].setAttribute("src", imgPresent());
       allIMG[i].setAttribute("src", imgSrc);
     }
   };
@@ -44,6 +45,7 @@ function ContentApp() {
 
   setInterval(() => removeShortButton(), 100);
 
+  //This function removes the shorts button from the sidebar itself
   const removeShortsButton_SideBar_Default = () => {
     const data:any = document.querySelector("ytd-guide-section-renderer.style-scope:nth-child(1) > div:nth-child(2) > ytd-guide-entry-renderer:nth-child(2) > a:nth-child(1) > tp-yt-paper-item:nth-child(1) > yt-icon:nth-child(1) > yt-icon-shape:nth-child(1) > icon-shape:nth-child(1) > div:nth-child(1)")
     
@@ -53,23 +55,20 @@ function ContentApp() {
 
   setInterval(() => removeShortsButton_SideBar_Default(), 100);
 
-
+  //This function removes the shorts button from the sidebar itself
+  //when in responsive mode
   const removeShortsButton_SideBar_Responsive = () => {
 
     const data:any = document.querySelector("#items > ytd-guide-entry-renderer:nth-child(2)")
-    // console.log(JSON.stringify(data))
     if (data && data.innerText == "Shorts"){
       data.remove()
     }
-
-    // const data:any = document.querySelector("ytd-mini-guide-entry-renderer.style-scope:nth-child(2) > a:nth-child(1) > yt-icon:nth-child(1) > yt-icon-shape:nth-child(1) > icon-shape:nth-child(1) > div:nth-child(1)")
-    
-    // if(data) return data.parentElement.parentElement.parentElement.parentElement.remove()
 
   }
 
   setInterval(() => removeShortsButton_SideBar_Responsive(), 100);
 
+  //This function removes shorts from your feed
   const delete_newShorts = () => {
     const data:any = document.querySelector("#contents > ytd-rich-grid-group")
 
@@ -108,17 +107,8 @@ function ContentApp() {
     }
   }, [imgSrc]);
 
-  React.useEffect(() => {
-    console.log('WELCOME')
-  },[])
 
-//   console.log('Checking if working.')
 
-//   chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-//     // Your code here
-//     const data = [tabId, tab]
-//     console.log(changeInfo, 'data', data)
-// });
   //This here checks if the app has sent any message using the chrome api, this is
   //how we communicate between the pages, this also saves the data in the localstorge
   //if any data is sent.
@@ -127,17 +117,16 @@ function ContentApp() {
     sender,
     sendResponse
   ) {
-    console.log(sender, sendResponse);
-
+    if(sender){}
     if (request.greeting) {
-      if (request.greeting == "CLEAR") {
+      if (request.greeting === "CLEAR") {
+
+        console.log('we got CLEAR')
         localStorage.removeItem("IMG_SRC");
         localStorage.removeItem("IMG_SRC");
         localStorage.removeItem("IMG_SRC");
 
-        // if (window.location.host.includes("youtube")) {
           window.location.reload();
-        // }
         return setImgSrc("");
       }
 
