@@ -27,7 +27,7 @@ function OptionsApp() {
           </h1>
           <div className="w-full h-[60%] flex items-end justify-end flex-col gap-[10px]">
             <button
-              className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#D4101D]"
+              className="text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] bg-[#D4101D] hover:bg-[#a3111b]"
               onClick={() => {
                 setImage("");
                 setImageData(noImage);
@@ -43,7 +43,7 @@ function OptionsApp() {
               RESET
             </button>
             <button 
-              className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#00A74D]"
+              className="text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] bg-[#00A74D] hover:bg-[#11914c]"
               onClick={() => {
                 localStorage.setItem("IMAGE", image);
                 if (imageData.name && imageData.memory) {
@@ -80,7 +80,7 @@ function OptionsApp() {
           </h1>
           <div className="w-full h-[40%] flex items-end justify-end flex-col gap-[10px]">
             <button
-              className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#D4101D]"
+              className="text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] bg-[#D4101D] hover:bg-[#a3111b]"
               onClick={() => {
                 setImage("");
                 setImageData(noImage);
@@ -97,7 +97,7 @@ function OptionsApp() {
         <h1 className="text-white text-left text-[18px] font-bold">
           Please Select a picture.
         </h1>
-        <button className="text-white font-bold text-[15px] rounded-[10px] h-[40px] w-full mt-[-15px] bg-[#00A74D] relative">
+        <button className="text-white font-bold text-[15px] rounded-[10px] transition ease-in-out delay-50 duration-300 h-[40px] w-full mt-[-15px] bg-[#00A74D] hover:bg-[#11914c] relative">
           <input
             type="file"
             className="w-full h-full absolute top-0 left-0 z-10 opacity-0 cursor-pointer "
@@ -179,8 +179,13 @@ function OptionsApp() {
 
   return (
     <>
-      <div className="h-[100vh] w-[100vw] p-[15px] bg-[#0f0f0f] flex items-center justify-center gap-4">
-        <div className="h-full w-[20%] flex items-center justify-center flex-col rounded-[10px] gap-4">
+      <div className="h-[100vh] w-[100vw] p-[15px] bg-[#0f0f0f] flex items-center justify-center gap-4 relative">
+        <div className="h-[95%] w-[95%] hidden bg-[#282828] m-[15px] rounded-[10px] p-[20px] absolute top-0 left-0 z-10 max-[700px]:flex  max-[700px]: items-center  max-[700px]: justify-center">
+          <h1 className="text-white font-bold text-[30px]">
+            We all know you are not using Youtube.com on your phone
+          </h1>
+        </div>
+        <div className="h-full w-[20%] flex items-center justify-center flex-col rounded-[10px] gap-4 max-[700px]:hidden">
           <div className="h-[60%] w-full rounded-[15px] flex items-start justify-between gap-[10px] flex-col bg-[#282828] pt-[40px] pb-[50px] pl-[15px] pr-[15px]">
             <h1 className="text-white font-bold text-[30px]">PREVIEW</h1>
             <h2 className="text-white font-bold text-[15px]">
@@ -211,14 +216,9 @@ function OptionsApp() {
             } flex-col bg-[#282828] p-[15px] `}
           >
             {dynamic_Image_Cards()}
-            {/* <h1 className="text-white text-left text-[18px] font-bold">Do you wanna save or reset ?</h1>
-            <div className="w-full h-[60%] flex items-end justify-end flex-col gap-[10px]">
-              <button className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#D4101D]">RESET</button>
-              <button className="text-white font-bold text-[10px] rounded-[10px] h-[40px] w-[100px] bg-[#00A74D]">SAVE</button>
-            </div> */}
           </div>
         </div>
-        <div className="h-full w-[80%] rounded-[15px] border-[10px] flex items-center justify-center flex-col border-[#282828]">
+        <div className="h-full w-[80%] rounded-[15px] border-[10px] flex items-center justify-center flex-col border-[#282828] max-[700px]:hidden">
           <div className="h-[15%] w-full p-[15px] flex items-center justify-between">
             <img src={Youtube} className="h-[20px]" alt="" />
             <div className="h-[30px] w-[400px] rounded-[30px] border-[2px] flex items-center justify-end border-[#303030] overflow-hidden">
@@ -228,7 +228,7 @@ function OptionsApp() {
           </div>
           <div className="h-[85%] w-full flex items-center justify-center p-[15px]">
             <div className="h-full w-[20%]"></div>
-            <div className="h-full w-[80%] flex items-center justify-end gap-3 max-h-full overflow-x-hidden flex-wrap">
+            <div className="h-full w-[80%] flex items-center justify-end gap-3 max-h-full overflow-x-hidden overflow-y-hidden flex-wrap">
               {Array(1, 2, 3, 4, 5, 6, 7, 8, 9).map((idx: number) => {
                 return (
                   <>
@@ -242,14 +242,6 @@ function OptionsApp() {
                         className="h-[85%] w-full bg-[#D9D9D9] rounded-[10px] bg-cover bg-center overflow-hidden"
                         style={{ backgroundImage: `url(${image})` }}
                       >
-                        {/* {image && (
-                          <>
-                            <img 
-                              className="w-full  block ml-auto mr-auto"
-                              src={image}
-                            />
-                          </>
-                        )} */}
                       </div>
                       <div className="h-[15%] w-full flex items-center justify-center gap-[5px]">
                         <div className="h-full w-[10%] bg-[#303030] rounded-[25px]"></div>

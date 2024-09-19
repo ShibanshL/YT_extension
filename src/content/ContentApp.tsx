@@ -1,6 +1,7 @@
 import React from "react";
 function ContentApp() {
   const [imgSrc, setImgSrc] = React.useState("");
+  const [icon, setIcon] = React.useState(false)
 
   //This function replaces the thumbnails of youtube videos to desired image
   //provided by the user
@@ -97,6 +98,7 @@ function ContentApp() {
   React.useEffect(() => {
     const img = localStorage.getItem("IMG_SRC");
     if (img) {
+      setIcon(true)
       return setImgSrc(img);
     }
   }, []);
@@ -107,6 +109,18 @@ function ContentApp() {
     }
   }, [imgSrc]);
 
+  React.useEffect(() => {
+    if(!icon){
+      chrome.runtime.sendMessage({greeting: "No Image"}, function(response) {
+        return response
+     });
+    }
+    else{
+      chrome.runtime.sendMessage({greeting: "Image"}, function(response) {
+       return response
+    });
+    }
+  },[icon])
 
 
   //This here checks if the app has sent any message using the chrome api, this is
@@ -120,7 +134,7 @@ function ContentApp() {
     if(sender){}
     if (request.greeting) {
       if (request.greeting === "CLEAR") {
-
+        setIcon(false)
         console.log('we got CLEAR')
         localStorage.removeItem("IMG_SRC");
         localStorage.removeItem("IMG_SRC");
@@ -129,7 +143,7 @@ function ContentApp() {
           window.location.reload();
         return setImgSrc("");
       }
-
+      setIcon(true)
       localStorage.setItem("IMG_SRC", request.greeting);
       return setImgSrc(request.greeting);
     }

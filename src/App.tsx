@@ -47,7 +47,7 @@ function App() {
           chrome.tabs.create({ url: "src/optionsPage/optionsPage.html" })
          }
         }
-        className={`text-white font-bold text-[10px] rounded-[5px] h-[40px] ${!img?'w-[150px]':'w-[120px]'} ${img?'bg-[#282828]':'bg-[#D4101D]'}`} >{!img?'ADD CUSTOM THUMBNAIL':'CLICK ME'}</button>
+        className={`text-white font-bold text-[10px] rounded-[5px] h-[40px] transition ease-in-out delay-50 duration-300 ${!img?'w-[150px]':'w-[120px]'} ${img?'bg-[#282828] hover:bg-[#444444]':'bg-[#D4101D] hover:bg-[#cc2a35]'}`} >{!img?'ADD CUSTOM THUMBNAIL':'CLICK ME'}</button>
       </div>
     </div>
   );

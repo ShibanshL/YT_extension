@@ -44,21 +44,47 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 //   });
 // };
 
-chrome.tabs.onCreated.addListener(function (tab) {
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: showAlert,
-  });
-});
+// chrome.tabs.onCreated.addListener(function (tab) {
+//   chrome.scripting.executeScript({
+//     target: { tabId: tab.id },
+//     function: showAlert,
+//   });
+// });
+chrome.runtime.onMessage.addListener(function (
+  request,
+  sender,
+  sendResponse
+) {
+  if(sender){}
+  console.log('activated')
+  if (request.greeting) {
+
+    if(request.greeting == "No Image"){
+      console.log('Got the No image bitch')
+    }
+    if(request.greeting == "Image"){
+      console.log('Finally got the image bitch')
+      chrome.action.setIcon({ path: "/YT_2.png" });
+    }
+      // chrome.runtime.onInstalled.addListener(() => {
+      //     chrome.action.setIcon({ path: "YT_2.png" });
+      //   });
+
+    return sendResponse({ farewell: "Thank you ! Image received !" });
+  }
+
+})
 
 function showAlert() {
-  alert("A new tab was opened!");
+  console.log("A new tab was opened!");
 }
 
-const SendMessage = async (data) => {
-  const res = chrome.tabs.query({}, (tabs) =>
-    tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id, data))
-  );
+showAlert()
 
-  return res;
-};
+// const SendMessage = async (data) => {
+//   const res = chrome.tabs.query({}, (tabs) =>
+//     tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id, data))
+//   );
+
+//   return res;
+// };
