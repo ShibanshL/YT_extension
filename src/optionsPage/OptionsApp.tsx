@@ -43,7 +43,8 @@ function OptionsApp() {
               RESET
             </button>
             <button 
-              className="text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] bg-[#00A74D] hover:bg-[#11914c]"
+              className={`text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] ${image?'opacity-1':'opacity-0'} bg-[#00A74D] hover:bg-[#11914c]`}
+              disabled={!image?true:false}
               onClick={() => {
                 localStorage.setItem("IMAGE", image);
                 if (imageData.name && imageData.memory) {

@@ -64,7 +64,11 @@ chrome.runtime.onMessage.addListener(function (
     }
     if(request.greeting == "Image"){
       console.log('Finally got the image bitch')
-      chrome.action.setIcon({ path: "/YT_2.png" });
+      chrome.tabs.query({active:true, windowType:"normal", currentWindow: true},function(d){
+        var tabId = d[0].id;
+        chrome.browserAction.setIcon({path: './YT_2.png', tabId: tabId});
+    })
+      // chrome.action.setIcon({ path: "/YT_2.png" });
     }
       // chrome.runtime.onInstalled.addListener(() => {
       //     chrome.action.setIcon({ path: "YT_2.png" });

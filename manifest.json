@@ -6,7 +6,12 @@
   "background": {
     "service_worker": "./src/background/background.js"
   },
-
+  "icons": {
+    "16": "YT_1.png",
+    "32": "YT_1.png",
+    "48": "YT_1.png",
+    "128": "YT_1.png"
+  },
   "options_page": "./src/optionsPage/optionsPage.html",
   "permissions": [
     "activeTab",
