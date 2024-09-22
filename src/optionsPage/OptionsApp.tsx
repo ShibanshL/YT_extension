@@ -15,7 +15,6 @@ function OptionsApp() {
   });
   const [tabId, setTabId] = useState<any>([0]);
 
-
   //This functions checks multiple things, whether a youtube tab is open or not
   //Whether the image provided has size less than an MB
   const dynamic_Image_Cards = () => {
@@ -35,16 +34,18 @@ function OptionsApp() {
                 localStorage.removeItem("IMGDATA");
                 tabId.map((e: any) => {
                   return Array(1, 2, 3).map(() => {
-                    return sendImg(e.id,'NoImage');
+                    return sendImg(e.id, "NoImage");
                   });
                 });
               }}
             >
               RESET
             </button>
-            <button 
-              className={`text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] ${image?'opacity-1':'opacity-0'} bg-[#00A74D] hover:bg-[#11914c]`}
-              disabled={!image?true:false}
+            <button
+              className={`text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] ${
+                image ? "opacity-1" : "opacity-0"
+              } bg-[#00A74D] hover:bg-[#11914c]`}
+              disabled={!image ? true : false}
               onClick={() => {
                 localStorage.setItem("IMAGE", image);
                 if (imageData.name && imageData.memory) {
@@ -147,19 +148,18 @@ function OptionsApp() {
     setImageData({ ...imageData, name: e?.name, memory: exactSize });
   };
 
-  setInterval(() => get_URL(), 1000);
+  setInterval(() => get_URL(), 1200);
 
   //This is the function that sends image into the youtube tabs to change
   //the thumbnail images
-  const sendImg = async (e: number,empty?:string) => {
-    let response:any ={}
+  const sendImg = async (e: number, empty?: string) => {
+    let response: any = {};
 
-    if(empty){
+    if (empty) {
       response = await chrome.tabs.sendMessage(e, {
         greeting: "CLEAR",
       });
-    }
-    else {
+    } else {
       response = await chrome.tabs.sendMessage(e, {
         greeting: image,
       });
@@ -242,8 +242,7 @@ function OptionsApp() {
                       <div
                         className="h-[85%] w-full bg-[#D9D9D9] rounded-[10px] bg-cover bg-center overflow-hidden"
                         style={{ backgroundImage: `url(${image})` }}
-                      >
-                      </div>
+                      ></div>
                       <div className="h-[15%] w-full flex items-center justify-center gap-[5px]">
                         <div className="h-full w-[10%] bg-[#303030] rounded-[25px]"></div>
                         <div className="h-full w-[90%] bg-[#303030] rounded-[25px]"></div>
@@ -261,4 +260,3 @@ function OptionsApp() {
 }
 
 export default OptionsApp;
-

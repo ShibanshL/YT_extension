@@ -2,15 +2,23 @@
   "manifest_version": 3,
   "name": "Chrome extension BoilerPlate",
   "version": "1.0.0",
-  "action": { "default_popup": "index.html" },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "YT_1.png",
+      "24": "YT_1.png",
+      "32": "YT_1.png"
+    }
+  },
+
   "background": {
     "service_worker": "./src/background/background.js"
   },
   "icons": {
-    "16": "YT_1.png",
-    "32": "YT_1.png",
-    "48": "YT_1.png",
-    "128": "YT_1.png"
+    "16": "YT_2.png",
+    "32": "YT_2.png",
+    "48": "YT_2.png",
+    "128": "YT_2.png"
   },
   "options_page": "./src/optionsPage/optionsPage.html",
   "permissions": [
