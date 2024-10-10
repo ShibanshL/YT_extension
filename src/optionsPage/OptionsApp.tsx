@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import Youtube from "../assets/Youtube.svg";
 
+// const imgTest = require('../assets/Youtube.svg')
+
 const noImage = {
   name: "",
   memory: "",
@@ -254,6 +256,9 @@ function OptionsApp() {
             </div>
           </div>
         </div>
+        {/* <div className={`Notification absolute transition ease-in-out delay-50 duration-300 ${tabId.length == 0?'animate-wiggle':'animate-wiggle_1'} right-5 h-[100px] w-[400px] bg-purple-50 rounded-[10px]`}>
+
+        </div> */}
       </div>
     </>
   );

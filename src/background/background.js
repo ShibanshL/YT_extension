@@ -1,4 +1,6 @@
 // const getUrl = async () => {
+// import ytLoc from './YT_1.png'
+
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === "install") {
     chrome.tabs.create({
@@ -7,90 +9,28 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   console.log(sender, sendResponse);
-
-//   if (request.greeting) {
-//     return SendMessage(request.greeting);
-//   }
-
-//   return sendResponse({ farewell: "Thank you Backend here! Image received !" });
-// });
-
-//This is the code for dynamic icon change
-//be sure to try it out
-// chrome.runtime.onInstalled.addListener(() => {
-//   chrome.action.setIcon({ path: "icon1.png" });
-// });
-
-// chrome.action.onClicked.addListener((tab) => {
-//   chrome.action.setIcon({ path: "icon2.png" });
-// });
-
-// const get_URL_1 = (e:any) => {
-//   return chrome.tabs.query({}, function (tabs) {
-//     // console.log(tabs);
-//     const data:any = tabs.filter((val:any) => val.url?.includes("youtube"))
-
-//     if(data.length > 0){
-//       e(data)
-//     }
-//     if(data.length === 0){
-//       e([])
-//     }
-//   });
-// };
-
-// chrome.tabs.onCreated.addListener(function (tab) {
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id },
-//     function: showAlert,
-//   });
-// });
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (sender) {
-  }
-  console.log("activated");
+  
   if (request.greeting) {
-    if (request.greeting == "No Image") {
-      console.log("Got the No image bitch");
-    }
-    if (request.greeting == "Image") {
-      console.log("Finally got the image bitch");
-      return chrome.action.setIcon(
-        {
-          path: "YT_2.png",
-          tabId: sender.tab.id,
-        },
-        function () {
+    if (request.greeting.data == "No Image") {
+        return  chrome.action.setIcon({path:'YT_2_128.png'}, () => {
           if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError.message);
-          } else {
-            console.log("Icon changed successfully!");
-          }
-        }
-      );
-      // return chrome.browserAction.setIcon({ path: "YT_2.png" });
-      // chrome.action.setIcon({ path: "/YT_2.png" });
+              console.error(chrome.runtime.lastError);
+          } })
+      }
+
     }
-    // chrome.runtime.onInstalled.addListener(() => {
-    //     chrome.action.setIcon({ path: "YT_2.png" });
-    //   });
+    if (request.greeting.data == "Image") {
+      return chrome.action.setIcon({path:'YT_1_128.png'}, () => {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+        } })
+    }
 
     return sendResponse({ farewell: "Thank you ! Image received !" });
   }
-});
+);
 
 function showAlert() {
   console.log("A new tab was opened!");
 }
-
-showAlert();
-
-// const SendMessage = async (data) => {
-//   const res = chrome.tabs.query({}, (tabs) =>
-//     tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id, data))
-//   );
-
-//   return res;
-// };

@@ -5,7 +5,20 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        wiggle: {
+          "100%": { bottom: "0" },
+        },
+        wiggle_1: {
+          "100%": { bottom: "-30" },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 1s linear infinite",
+        wiggle_1: "wiggle_1 1s linear infinite"
+      },
+    },
   },
   plugins: [],
 }

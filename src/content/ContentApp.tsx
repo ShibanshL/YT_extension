@@ -1,4 +1,7 @@
 import React from "react";
+// import YT_2 from './YT_2.png'
+// import YT_1 from './YT_1.png'
+
 function ContentApp() {
   const [imgSrc, setImgSrc] = React.useState("");
   const [icon, setIcon] = React.useState(false)
@@ -110,14 +113,20 @@ function ContentApp() {
   }, [imgSrc]);
 
   React.useEffect(() => {
-    if(!icon){
-      chrome.runtime.sendMessage({greeting: "No Image"}, function(response) {
+    if(icon){
+      return chrome.runtime.sendMessage({greeting: {data:'No Image',img:'YT_1'}}, function(response) {
+        const img = new Image();
+        img.src = 'YT_1.png';
+        console.log('Img',img)
         return response
      });
     }
-    else{
-      chrome.runtime.sendMessage({greeting: "Image"}, function(response) {
-       return response
+    if(!icon){
+      return chrome.runtime.sendMessage({greeting: {data:'Image',img:'YT_2'}}, function(response) {
+        const img = new Image();
+        img.src = 'YT_1.png';
+        console.log('No Img',img)
+        return response
     });
     }
   },[icon])
