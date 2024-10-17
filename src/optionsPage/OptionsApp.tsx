@@ -1,7 +1,7 @@
 // import React from "react";
 import { useState, useEffect } from "react";
 import Youtube from "../assets/Youtube.svg";
-
+import CloseBUtton from '../assets/Close.png'
 // const imgTest = require('../assets/Youtube.svg')
 
 const noImage = {
@@ -9,12 +9,21 @@ const noImage = {
   memory: "",
 };
 
+  // const testData:any = localStorage.getItem("IMGDATA")
+
+
 function OptionsApp() {
-  const [image, setImage] = useState<any>("");
-  const [imageData, setImageData] = useState({
-    name: "",
+
+  const [image, setImage] = useState<any>(localStorage.getItem("IMAGE")||"");
+  const [imageData, setImageData] = useState<any>( {
+    name:  "",
     memory: "",
   });
+
+  const [imgSubmitted, setImgSubmitted] = useState(false)
+
+  // const [imgMem,setImgMem] = useState(localStorage.getItem("IMGDATA")||'')
+
   const [tabId, setTabId] = useState<any>([0]);
 
   //This functions checks multiple things, whether a youtube tab is open or not
@@ -39,6 +48,8 @@ function OptionsApp() {
                     return sendImg(e.id, "NoImage");
                   });
                 });
+                setImgSubmitted(true)
+
               }}
             >
               RESET
@@ -58,6 +69,7 @@ function OptionsApp() {
                     return sendImg(e.id);
                   });
                 });
+                setImgSubmitted(true)
               }}
             >
               SAVE
@@ -88,6 +100,7 @@ function OptionsApp() {
               onClick={() => {
                 setImage("");
                 setImageData(noImage);
+                setImgSubmitted(false)
               }}
             >
               RESET
@@ -169,6 +182,23 @@ function OptionsApp() {
     return response;
   };
 
+
+  //This function remove chrome extension option pages once we've set or changed or deleted thumbnails
+  const Close_Chrome_Tabs = () => {
+
+    // const specificUrl = 'chrome-extension://pndnpnmfbolkkceohgnbleldngnkjnbb/src/optionsPage/optionsPage.html'
+
+    setImgSubmitted(false)
+
+    return chrome.tabs.query({}, (tabs) => {
+      tabs.forEach((tab:any) => {
+          if (tab.url.includes('/src/optionsPage/optionsPage.html')) {
+              chrome.tabs.remove(tab.id);
+          }
+      });
+  });
+  }
+
   useEffect(() => {
     const Img = localStorage.getItem("IMAGE");
     const ImgData: any = localStorage.getItem("IMGDATA");
@@ -178,6 +208,26 @@ function OptionsApp() {
       setImage(Img);
       setImageData({ ...imageData, name: SubIMG.name, memory: SubIMG.memory });
     }
+  }, []);
+
+  useEffect(() => {
+    const handleStorageChange = (event:any) => {
+      if (event.key === 'IMAGE') {
+        setImage(event.newValue);
+      }
+
+      if (event.key === 'IMGDATA') {
+      // console.log('check',event.newValue)
+        setImageData(JSON.parse(event.newValue));
+      }
+
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   return (
@@ -256,9 +306,16 @@ function OptionsApp() {
             </div>
           </div>
         </div>
-        {/* <div className={`Notification absolute transition ease-in-out delay-50 duration-300 ${tabId.length == 0?'animate-wiggle':'animate-wiggle_1'} right-5 h-[100px] w-[400px] bg-purple-50 rounded-[10px]`}>
-
-        </div> */}
+        {imgSubmitted && 
+          <div className={`Notification absolute transition ease-in-out delay-50 duration-300 right-5 h-full w-full bg-[rgba(0,0,0,0.5)] backdrop-filter backdrop-blur-lg bg-opacity-20 flex items-center justify-center `}>
+            <div className="bg-[#282828] h-[200px] w-[400px] flex items-center justify-center rounded-[30px] relative">
+              <h1 className="text-white font-semibold text-xl">It's done! Enjoy.</h1>
+              <div className="absolute top-[20px] right-[20px] cursor-pointer transition ease-in-out delay-50 duration-300 p-[10px] rounded-[50px] hover:bg-black" onClick={Close_Chrome_Tabs}>
+                <img src={CloseBUtton} alt="" />
+              </div>
+            </div>
+          </div>
+          }
       </div>
     </>
   );

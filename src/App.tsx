@@ -6,7 +6,10 @@ function App() {
 
   const [img,setImg] = useState(false)
 
+
   // const [imgLnk, setImgLink] = useState<any>('');
+
+
 
   useEffect(() => {
     const IMG = localStorage.getItem("IMAGE");
