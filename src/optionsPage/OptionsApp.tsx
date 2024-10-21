@@ -43,17 +43,19 @@ function OptionsApp() {
                 setImageData(noImage);
                 localStorage.removeItem("IMAGE");
                 localStorage.removeItem("IMGDATA");
+                localStorage.removeItem("DATA_PRESENT")
                 tabId.map((e: any) => {
                   return Array(1, 2, 3).map(() => {
                     return sendImg(e.id, "NoImage");
                   });
                 });
-                setImgSubmitted(true)
+                setTimeout(() => setImgSubmitted(true),500)
 
               }}
             >
               RESET
             </button>
+            {localStorage.getItem('DATA_PRESENT') == 'undefined' || localStorage.getItem('DATA_PRESENT') == 'NaN'  || localStorage.getItem('DATA_PRESENT') == '0' ?
             <button
               className={`text-white font-bold text-[10px] transition ease-in-out delay-50 duration-300 rounded-[10px] h-[40px] w-[100px] ${
                 image ? "opacity-1" : "opacity-0"
@@ -61,6 +63,7 @@ function OptionsApp() {
               disabled={!image ? true : false}
               onClick={() => {
                 localStorage.setItem("IMAGE", image);
+                localStorage.setItem("DATA_PRESENT",'0')
                 if (imageData.name && imageData.memory) {
                   localStorage.setItem("IMGDATA", JSON.stringify(imageData));
                 }
@@ -69,11 +72,12 @@ function OptionsApp() {
                     return sendImg(e.id);
                   });
                 });
-                setImgSubmitted(true)
+                setTimeout(() => setImgSubmitted(true),500)
               }}
             >
               SAVE
             </button>
+            :''}
           </div>
         </>
       );
@@ -100,7 +104,7 @@ function OptionsApp() {
               onClick={() => {
                 setImage("");
                 setImageData(noImage);
-                setImgSubmitted(false)
+                setTimeout(() => setImgSubmitted(false),500)
               }}
             >
               RESET
@@ -188,7 +192,7 @@ function OptionsApp() {
 
     // const specificUrl = 'chrome-extension://pndnpnmfbolkkceohgnbleldngnkjnbb/src/optionsPage/optionsPage.html'
 
-    setImgSubmitted(false)
+    setTimeout(() => setImgSubmitted(false),100)
 
     return chrome.tabs.query({}, (tabs) => {
       tabs.forEach((tab:any) => {
@@ -229,6 +233,16 @@ function OptionsApp() {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  const conv = (e:any) => {
+    if(e != undefined || !e){
+      return parseInt(e)+1
+    }
+  }
+
+  useEffect(() => {
+    localStorage.setItem('DATA_PRESENT',`${conv(localStorage.getItem("DATA_PRESENT"))}`)
+  },[])
 
   return (
     <>
